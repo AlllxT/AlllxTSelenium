@@ -7,6 +7,9 @@
     <groupId>com.alllxt</groupId>
     <artifactId>selenium</artifactId>
     <version>1.0-SNAPSHOT</version>
+    <properties>
+        <logger.version>1.7.25</logger.version>
+    </properties>
 
     <dependencies>
         <dependency>
@@ -19,7 +22,11 @@
             <artifactId>testng</artifactId>
             <version>6.11</version>
         </dependency>
-
+        <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+            <version>21.0</version>
+        </dependency>
     </dependencies>
 
 

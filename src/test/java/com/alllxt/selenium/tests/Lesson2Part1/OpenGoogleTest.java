@@ -1,4 +1,4 @@
-package com.alllxt.selenium.tests;
+package com.alllxt.selenium.tests.Lesson2Part1;
 
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -13,18 +13,18 @@ public class OpenGoogleTest {
 
     private WebDriver driver;
 
-
     @BeforeClass
-    public void setUp(){
+    public void setUp() {
         driver = new ChromeDriver();
     }
+
     @Test
-    public void openGoogleTest(){
+    public void openGoogleTest() {
         driver.get("http://www.google.com");
     }
 
     @AfterTest
-    public void tearDrown(){
+    public void tearDrown() {
         driver.quit();
     }
 }
