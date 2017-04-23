@@ -1,40 +1,43 @@
-package com.alllxt.selenium.tests.Lesson2Part3;
+package com.alllxt.selenium.tests.Lesson3.part4;
 
-
+import com.alllxt.selenium.framework.BaseTest;
 import com.alllxt.selenium.framework.models.User;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.annotations.AfterTest;
-import org.testng.annotations.BeforeTest;
+import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
+import ru.stqa.selenium.factory.WebDriverPool;
 
 /**
- * Created by atribushny on 19.04.2017.
+ * Created by atribushny on 18.04.2017.
  */
-public class LoginToLiteCartTest {
+public class FFLatestStableTest extends BaseTest{
 
     private WebDriver driver;
     private WebDriverWait wait;
     private User user = new User();
-    private static final String BASEURL = "http://localhost/litecart/admin/";
-    private static final int TIMEOUT = 10;
 
-    @BeforeTest
+    /**
+     * The default FF is used
+     * <p>
+     * The extended version is:
+     * DesiredCapabilities caps = new DesiredCapabilities();
+     * caps.setCapability(FirefoxDriver.MARIONETTE, true);
+     * FirefoxOptions options = new FirefoxOptions();
+     * options.addCapabilities(caps);
+     * driver = new FirefoxDriver(options);
+     */
+    @BeforeClass
     public void setUp() {
-        driver = new ChromeDriver();
+        driver = WebDriverPool.DEFAULT.getDriver(DesiredCapabilities.firefox());
         wait = new WebDriverWait(driver, TIMEOUT);
     }
-
-    private static final String USER_NAME_TEXT_FIELD_CSS_LOCATOR = "[name='username']"; // or By.name
-    private static final String USER_PWD_TEXT_FIELD_CSS_LOCATOR = "[name='password']"; // or By.name
-    private static final String USER_LOGIN_BUTTON_CSS_LOCATOR = "button[name='login']";
-    private static final String LOGOUT_BUTTON_CSS_LOCATOR = "a[title='Logout']";
-    private static final String REMEMBER_ME_CHECKBOX = "input[name='remember_me']"; // or By.name
 
 
     /**
@@ -105,6 +108,5 @@ public class LoginToLiteCartTest {
     public void tearDown() {
         driver.quit();
     }
-
 
 }

@@ -1,4 +1,4 @@
-package com.alllxt.selenium.tests.Lesson2Part1;
+package com.alllxt.selenium.tests.lesson2.part1;
 
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
