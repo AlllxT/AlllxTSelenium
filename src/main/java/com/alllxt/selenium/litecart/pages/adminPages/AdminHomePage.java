@@ -18,20 +18,21 @@ public class AdminHomePage extends LitecartBasicPage {
     private WebDriverWait wait = new WebDriverWait(LocalDriverManager.getDriver(), 10);
 
     private static final String MENU_BLOCK = "box-apps-menu";
-    private static final String MENU_LIST = "app-";
+    private static final String MENU_LIST = "li#app-";
     private static final String MENU_OPTION_SELECTED = "#app-.selected";
     private static final String MENU_SUB_OPTION = "ul>li";
     private static final String HEADER = "#main h1";
 
     private List<WebElement> getMenuOptions() {
-        return driver.findElements(By.id(MENU_LIST));
+        return driver.findElements(By.cssSelector(MENU_LIST));
     }
 
-    private List<WebElement> getSubMenuItems(WebElement element) {
+    private List<WebElement> getSubMenuOptions(WebElement element) {
         return element.findElements(By.cssSelector(MENU_SUB_OPTION));
     }
 
     private WebElement getSelectedMenuOption() {
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(MENU_OPTION_SELECTED)));
         return driver.findElement(By.cssSelector(MENU_OPTION_SELECTED));
     }
 
@@ -41,10 +42,12 @@ public class AdminHomePage extends LitecartBasicPage {
             WebElement menuOption = getMenuOptions().get(index);
             System.out.println("# " + menuOption.getText());
             menuOption.click();
-            for (int subIndex = 0; subIndex < getSubMenuItems(getSelectedMenuOption()).size(); subIndex++) {
-                WebElement subMenuOption = getSubMenuItems(getSelectedMenuOption()).get(subIndex);
+            wait.until(ExpectedConditions.stalenessOf(menuOption));
+            for (int subIndex = 0; subIndex < getSubMenuOptions(getSelectedMenuOption()).size(); subIndex++) {
+                WebElement subMenuOption = getSubMenuOptions(getSelectedMenuOption()).get(subIndex);
                 System.out.println("++ " + subMenuOption.getText());
                 subMenuOption.click();
+                wait.until(ExpectedConditions.stalenessOf(subMenuOption));
                 assertTrue(isElementPresent(HEADER));
             }
         }

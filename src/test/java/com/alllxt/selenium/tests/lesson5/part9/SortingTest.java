@@ -1,4 +1,4 @@
-package com.alllxt.selenium.tests.lesson4.part7;
+package com.alllxt.selenium.tests.lesson5.part9;
 
 import com.alllxt.selenium.framework.bases.BaseTest;
 import com.alllxt.selenium.framework.models.User;
@@ -13,7 +13,7 @@ import static org.testng.Assert.assertTrue;
 /**
  * Created by atribushny on 25.04.2017.
  */
-public class AdminMenuTest extends BaseTest {
+public class SortingTest extends BaseTest {
 
     private User user = new User();
     private AdminLoginPage adminLoginPage;

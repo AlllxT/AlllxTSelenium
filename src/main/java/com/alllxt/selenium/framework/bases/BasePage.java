@@ -6,6 +6,8 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+import java.util.concurrent.TimeUnit;
+
 /**
  * Created by atribushny on 24.04.2017.
  */
@@ -19,6 +21,7 @@ public class BasePage {
 
     public BasePage() {
         this.driver = LocalDriverManager.getDriver();
+        driver.manage().timeouts().pageLoadTimeout(10, TimeUnit.SECONDS);
     }
 
     public boolean isElementPresent(String locator) {
@@ -29,6 +32,10 @@ public class BasePage {
         } else {
             return driver.findElements(By.cssSelector(locator)).size() > 0;
         }
+    }
+
+    public boolean isElementPresent(By locator){
+        return driver.findElements(locator).size() > 0;
     }
 
 

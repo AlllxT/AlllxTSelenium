@@ -1,5 +1,7 @@
 package com.alllxt.selenium.litecart.pages.adminPages;
 
+import com.alllxt.selenium.framework.models.User;
+
 /**
  * Created by atribushny on 24.04.2017.
  */
@@ -13,6 +15,15 @@ public class AdminLoginPage extends LitecartBasicPage {
     public AdminLoginPage openAdminLoginPage() {
         driver.get(ADMIN_BASEURL);
         return this;
+    }
+
+    public AdminHomePage openAndLogin(User user) {
+        openAdminLoginPage()
+                .isLoginPageLoaded();
+        enterUsername(user.getAdminUserName())
+                .enterPassword(user.getAdminUserPassword())
+                .submitLogin();
+        return new AdminHomePage();
     }
 
     public boolean isLoginPageLoaded() {
@@ -34,7 +45,6 @@ public class AdminLoginPage extends LitecartBasicPage {
     public void submitLogin() {
         findByCss(USER_LOGIN_BUTTON_CSS_LOCATOR).click();
     }
-
 
 
 }
