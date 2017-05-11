@@ -11,7 +11,7 @@ import static org.testng.Assert.assertTrue;
 /**
  * Created by atribushny on 25.04.2017.
  */
-public class PublicStickerPriceTest extends BaseTest {
+public class PublicProductTest extends BaseTest {
 
     HomePage homePage;
 
