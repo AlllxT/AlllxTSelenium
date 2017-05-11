@@ -34,7 +34,6 @@ public class HomePage extends BasePage {
     private static final String PRICE_BOX = ".price-wrapper";
     private static final String REGULAR_PRICE = PRICE_BOX + "> .regular-price";
     private static final String CAMPAIGN_PRICE = PRICE_BOX + "> .campaign-price";
-    private String separator = "---------";
 
 
     public HomePage openHomePage() {
@@ -93,8 +92,8 @@ public class HomePage extends BasePage {
     }
 
     public void verifyFontSizes(WebElement element) {
-        double regularFontSize = getFontSizeOfElement(element, REGULAR_PRICE);
-        double campaignFontSize = getFontSizeOfElement(element, CAMPAIGN_PRICE);
+        float regularFontSize = getFontSizeOfElement(element, REGULAR_PRICE);
+        float campaignFontSize = getFontSizeOfElement(element, CAMPAIGN_PRICE);
         assertTrue(regularFontSize < campaignFontSize, "Regular price should be less than campaign");
         System.out.println("Regular price size is: " + regularFontSize);
         System.out.println("Campaign price size is: " + campaignFontSize);
@@ -112,6 +111,7 @@ public class HomePage extends BasePage {
         productPriceInTabRegular = findElementInElement(productInTab, REGULAR_PRICE).getText();
         productPriceInTabCampaign = findElementInElement(productInTab, CAMPAIGN_PRICE).getText();
 
+        String separator = "---------";
         System.out.println(separator);
         System.out.println("Product name: " + productNameInTab);
         System.out.println("Product regular price: " + productPriceInTabRegular);

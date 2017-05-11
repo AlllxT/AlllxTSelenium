@@ -103,13 +103,13 @@ public class Tools {
     }
 
 
-    public static double getFontSizeOfElement(String locator) {
-        return Double.parseDouble(findElement(locator)
+    public static float getFontSizeOfElement(String locator) {
+        return Float.parseFloat(findElement(locator)
                 .getCssValue("font-size").replace("px", ""));
     }
 
-    public static double getFontSizeOfElement(WebElement element, String locator) {
-        return Double.parseDouble(findElementInElement(element, locator)
+    public static float getFontSizeOfElement(WebElement element, String locator) {
+        return Float.parseFloat(findElementInElement(element, locator)
                 .getCssValue("font-size").replace("px", ""));
     }
 
