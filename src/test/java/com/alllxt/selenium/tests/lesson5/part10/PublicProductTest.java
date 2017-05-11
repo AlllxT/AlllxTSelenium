@@ -13,7 +13,7 @@ import static org.testng.Assert.assertTrue;
  */
 public class PublicProductTest extends BaseTest {
 
-    HomePage homePage;
+    private HomePage homePage;
 
     @BeforeMethod
     public void setUpTestClass() {
