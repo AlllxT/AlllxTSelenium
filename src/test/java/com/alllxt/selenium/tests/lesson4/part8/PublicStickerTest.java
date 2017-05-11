@@ -5,8 +5,6 @@ import com.alllxt.selenium.litecart.pages.publicPages.HomePage;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import static org.testng.Assert.assertTrue;
-
 /**
  * Created by atribushny on 25.04.2017.
  */

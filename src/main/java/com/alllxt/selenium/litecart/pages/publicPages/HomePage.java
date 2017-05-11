@@ -4,9 +4,9 @@ import com.alllxt.selenium.framework.bases.BasePage;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
-import java.util.ArrayList;
 import java.util.List;
 
+import static com.alllxt.selenium.framework.utils.Tools.click;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertTrue;
 
@@ -19,7 +19,6 @@ public class HomePage extends BasePage {
     private static final String PRODUCTS_LOCATOR = "div.image-wrapper";
     private static final String STICKER_LOCATOR = "div.sticker";
     private static final String PRODUCT_TABS = ".nav.nav-tabs.nav-justified li";
-
 
     public HomePage openHomePage() {
         driver.get(BASEURL);
@@ -39,7 +38,7 @@ public class HomePage extends BasePage {
         for (int tab = 0; tab < tabs.size(); tab++) {
             List<WebElement> productList = null;
             System.out.println("# " + tabs.get(tab).getText() + " tab is opened");
-            tabs.get(tab).click();
+            click(tabs.get(tab));
             WebElement currentProducts = driver.findElement(By.xpath(String.format(OPENED_TAB, tab + 1)));
             productList = currentProducts.findElements(By.cssSelector(PRODUCTS_LOCATOR));
             for (WebElement product : productList) {

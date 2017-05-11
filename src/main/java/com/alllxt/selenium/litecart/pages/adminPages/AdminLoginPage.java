@@ -1,6 +1,10 @@
 package com.alllxt.selenium.litecart.pages.adminPages;
 
 import com.alllxt.selenium.framework.models.User;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+
+import static com.alllxt.selenium.framework.utils.Tools.click;
+import static org.openqa.selenium.support.ui.ExpectedConditions.invisibilityOf;
 
 /**
  * Created by atribushny on 24.04.2017.
@@ -23,8 +27,11 @@ public class AdminLoginPage extends LitecartBasicPage {
         enterUsername(user.getAdminUserName())
                 .enterPassword(user.getAdminUserPassword())
                 .submitLogin();
+        wait.until(invisibilityOf(findByCss(USER_LOGIN_BUTTON_CSS_LOCATOR)));
+        wait.until(ExpectedConditions.urlToBe(ADMIN_BASEURL));
         return new AdminHomePage();
     }
+
 
     public boolean isLoginPageLoaded() {
         return isElementPresent("#box-login");
@@ -43,7 +50,7 @@ public class AdminLoginPage extends LitecartBasicPage {
     }
 
     public void submitLogin() {
-        findByCss(USER_LOGIN_BUTTON_CSS_LOCATOR).click();
+        click(USER_LOGIN_BUTTON_CSS_LOCATOR);
     }
 
 

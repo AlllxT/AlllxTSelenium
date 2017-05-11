@@ -8,12 +8,14 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.util.List;
 
+import static com.alllxt.selenium.framework.utils.Tools.click;
 import static org.testng.Assert.assertTrue;
 
 /**
  * Created by atribushny on 10.05.2017.
  */
 public class AdminHomePage extends LitecartBasicPage {
+
 
     private WebDriverWait wait = new WebDriverWait(LocalDriverManager.getDriver(), 10);
 
@@ -31,6 +33,10 @@ public class AdminHomePage extends LitecartBasicPage {
         return element.findElements(By.cssSelector(MENU_SUB_OPTION));
     }
 
+    public boolean isHomePageLoaded() {
+        return wait.until(ExpectedConditions.urlToBe(ADMIN_BASEURL));
+    }
+
     private WebElement getSelectedMenuOption() {
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(MENU_OPTION_SELECTED)));
         return driver.findElement(By.cssSelector(MENU_OPTION_SELECTED));
@@ -41,17 +47,19 @@ public class AdminHomePage extends LitecartBasicPage {
         for (int index = 0; index < getMenuOptions().size(); index++) {
             WebElement menuOption = getMenuOptions().get(index);
             System.out.println("# " + menuOption.getText());
-            menuOption.click();
+            click(menuOption);
             wait.until(ExpectedConditions.stalenessOf(menuOption));
             for (int subIndex = 0; subIndex < getSubMenuOptions(getSelectedMenuOption()).size(); subIndex++) {
                 WebElement subMenuOption = getSubMenuOptions(getSelectedMenuOption()).get(subIndex);
                 System.out.println("++ " + subMenuOption.getText());
-                subMenuOption.click();
+                click(subMenuOption);
                 wait.until(ExpectedConditions.stalenessOf(subMenuOption));
                 assertTrue(isElementPresent(HEADER));
             }
         }
     }
+
+
 }
 
 
