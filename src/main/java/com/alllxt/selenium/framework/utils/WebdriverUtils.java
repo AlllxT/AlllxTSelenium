@@ -2,6 +2,7 @@ package com.alllxt.selenium.framework.utils;
 
 import com.alllxt.selenium.framework.webdriver.manager.LocalDriverManager;
 import com.alllxt.selenium.framework.webdriver.manager.WebdriverFactory;
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
@@ -60,6 +61,8 @@ public class WebdriverUtils {
         driver.manage().window().maximize();
         driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
     }
+
+
 
 
 

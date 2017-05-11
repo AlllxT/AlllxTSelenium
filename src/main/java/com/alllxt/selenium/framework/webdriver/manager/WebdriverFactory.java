@@ -34,7 +34,9 @@ public class WebdriverFactory {
                 break;
             case IE:
                 System.setProperty("webdriver.ie.driver", "drivers/IEDriverServer.exe");
-                driver = new InternetExplorerDriver();
+                DesiredCapabilities capsIE = DesiredCapabilities.internetExplorer();
+                capsIE.setCapability("ignoreZoomSetting", true);
+                driver = new InternetExplorerDriver(capsIE);
                 break;
             default:
                 throw new IllegalStateException("Browser is not supported.");

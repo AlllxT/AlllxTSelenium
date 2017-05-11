@@ -2,11 +2,14 @@ package com.alllxt.selenium.framework.utils;
 
 import com.alllxt.selenium.framework.webdriver.manager.LocalDriverManager;
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import org.openqa.selenium.support.Color;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.TreeSet;
 
 import static com.alllxt.selenium.framework.bases.BasePage.paintElement;
@@ -39,7 +42,6 @@ public class Tools {
     }
 
 
-
     public static void click(String locator) {
         if (locator.startsWith("//")
                 || locator.startsWith(".//")
@@ -48,6 +50,98 @@ public class Tools {
         } else {
             driver.findElement(By.cssSelector(locator)).click();
         }
+    }
+
+    public static By getByFromString(String stringLocator) {
+        if (stringLocator.startsWith("//")
+                || stringLocator.startsWith(".//")
+                || stringLocator.startsWith("(//")
+                || stringLocator.startsWith("(.//")
+                || stringLocator.startsWith("/*//")
+                || stringLocator.startsWith("(./*")
+                || stringLocator.startsWith("((//")) {
+            return By.xpath(stringLocator);
+        } else {
+            return By.cssSelector(stringLocator);
+        }
+    }
+
+    public static WebElement findElement(String locator) {
+        return driver.findElement(getByFromString(locator));
+    }
+
+    public static List<WebElement> findElements(String locator) {
+        return driver.findElements(getByFromString(locator));
+    }
+
+    public static WebElement findElementInElement(WebElement inElement, String locator) {
+        return inElement.findElement(getByFromString(locator));
+    }
+
+    public static WebElement findElementInElement(WebElement inElement, By locator) {
+        return inElement.findElement(locator);
+    }
+
+
+    public static String getAttributeOfElement(String locator, String attribute) {
+        return findElement(locator).getAttribute(attribute);
+    }
+
+    public static String getAttributeOfElement(WebElement element, String locator, String attribute) {
+        return findElementInElement(element, locator).getAttribute(attribute);
+    }
+
+
+    public static String getColorOfElement(String locator) {
+        String color = findElement(locator).getCssValue("color");
+        return Color.fromString(color).asRgba();
+    }
+
+    public static String getColorOfElement(WebElement element, String locator) {
+        String color = findElementInElement(element, locator).getCssValue("color");
+        return Color.fromString(color).asRgba();
+    }
+
+
+    public static double getFontSizeOfElement(String locator) {
+        return Double.parseDouble(findElement(locator)
+                .getCssValue("font-size").replace("px", ""));
+    }
+
+    public static double getFontSizeOfElement(WebElement element, String locator) {
+        return Double.parseDouble(findElementInElement(element, locator)
+                .getCssValue("font-size").replace("px", ""));
+    }
+
+    public static String getFontWeightOfElement(String locator) {
+        return findElement(locator).getCssValue("font-weight");
+    }
+
+    public static String getFontWeightOfElement(WebElement element, String locator) {
+        String cssValue = findElementInElement(element, locator).getCssValue("font-weight");
+        if (cssValue.equals("bold") || cssValue.equals("700")) {
+            return "bold";
+        }
+        return cssValue;
+    }
+
+
+    public static String getTextDecorationOfElement(String locator) {
+        return findElement(locator).getCssValue("text-decoration");
+    }
+
+    public static String getTextDecorationOfElement(WebElement element, String locator) {
+        return findElementInElement(element, locator).getCssValue("text-decoration").split(" ")[0];
+    }
+
+
+    public static void clickOnElementByJavaScript(String locator) {
+        WebElement element = findElement(locator);
+        clickOnElementByJavaScript(element);
+    }
+
+    public static void clickOnElementByJavaScript(WebElement element) {
+        ((JavascriptExecutor) driver).executeScript("arguments[0].click();", element);
     }
 
 }
