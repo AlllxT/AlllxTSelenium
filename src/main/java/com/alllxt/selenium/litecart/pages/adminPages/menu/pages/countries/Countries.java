@@ -1,6 +1,7 @@
 package com.alllxt.selenium.litecart.pages.adminPages.menu.pages.countries;
 
 import com.alllxt.selenium.litecart.pages.adminPages.AdminHomePage;
+import com.alllxt.selenium.litecart.pages.adminPages.LitecartBasicPage;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
@@ -13,7 +14,7 @@ import static com.alllxt.selenium.framework.utils.Tools.isCollectionsEqual;
 /**
  * Created by atribushny on 10.05.2017.
  */
-public class Countries extends AdminHomePage {
+public class Countries extends LitecartBasicPage {
 
     private static final String COUNTRY_ROW = ".data-table tbody>tr";
     private static final String ZONE_CELL = "tbody td:nth-child(6)";

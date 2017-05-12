@@ -1,6 +1,6 @@
 package com.alllxt.selenium.litecart.pages.adminPages.menu.pages.geo.zones;
 
-import com.alllxt.selenium.litecart.pages.adminPages.AdminHomePage;
+import com.alllxt.selenium.litecart.pages.adminPages.LitecartBasicPage;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
@@ -11,7 +11,7 @@ import static com.alllxt.selenium.framework.utils.Tools.click;
 /**
  * Created by atribushny on 11.05.2017.
  */
-public class GeoZones extends AdminHomePage{
+public class GeoZones extends LitecartBasicPage {
 
     private static final String COUNTRY_ROW = ".data-table tbody>tr";
     private static final String COUNTRY_LINK = "//a[.='%s']";
@@ -19,7 +19,7 @@ public class GeoZones extends AdminHomePage{
     private ArrayList<String> getGeoZoneCountries() {
         ArrayList<String> countries = new ArrayList<>();
         for (WebElement country : driver.findElements(By.cssSelector(COUNTRY_ROW))) {
-                countries.add(country.findElement(By.tagName("a")).getText());
+            countries.add(country.findElement(By.tagName("a")).getText());
         }
         return countries;
     }

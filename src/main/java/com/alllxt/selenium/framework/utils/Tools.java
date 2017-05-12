@@ -69,6 +69,8 @@ public class Tools {
         return driver.findElements(getByFromString(locator));
     }
 
+
+
     public static WebElement findElementInElement(WebElement inElement, String locator) {
         WebElement element = inElement.findElement(getByFromString(locator));
         element.isDisplayed();

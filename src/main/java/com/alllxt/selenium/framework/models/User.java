@@ -11,12 +11,9 @@ public class User {
     private String adress;
 
     public User() {
-        this.fname = fname;
-        this.lname = lname;
-        this.email = email;
-        this.password = password;
-        this.adress = adress;
+
     }
+
 
     private final String adminUserName = "admin";
     private final String adminUserPassword = "admin";

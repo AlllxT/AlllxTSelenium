@@ -21,7 +21,7 @@ public class AdminLoginPage extends LitecartBasicPage {
         return this;
     }
 
-    public AdminHomePage openAndLogin(User user) {
+    public void openAndLogin(User user) {
         openAdminLoginPage()
                 .isLoginPageLoaded();
         enterUsername(user.getAdminUserName())
@@ -29,7 +29,6 @@ public class AdminLoginPage extends LitecartBasicPage {
                 .submitLogin();
         wait.until(invisibilityOf(findByCss(USER_LOGIN_BUTTON_CSS_LOCATOR)));
         wait.until(ExpectedConditions.urlToBe(ADMIN_BASEURL));
-        return new AdminHomePage();
     }
 
 

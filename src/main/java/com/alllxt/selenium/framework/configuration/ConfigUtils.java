@@ -12,14 +12,19 @@ public class ConfigUtils {
 
     private static final String PATH_TO_CONFIG_PROPERTY_KEY = "config/config.properties";
     private static final String BROWSER_KEY = "browser";
+    private static final String NEW_PRODUCT_IMAGE_FILE_KEY = "new.product.image.path";
 
     private static Browser browser;
+    private static String newProductImageFilePath = "";
+
     private static Properties propertiesFromFile;
+
 
     static {
         try {
             loadConfig();
             setBrowser();
+            setNewProductImageFilePath();
         } catch (Exception e) {
             e.printStackTrace();
             throw new RuntimeException("Config initialization failed");
@@ -62,7 +67,7 @@ public class ConfigUtils {
         }
     }
 
-    public static Browser getBrowser(){
+    public static Browser getBrowser() {
         return browser;
     }
 
@@ -75,4 +80,11 @@ public class ConfigUtils {
         }
     }
 
+    public static String getNewProductImageFilePath() {
+        return newProductImageFilePath;
+    }
+
+    private static void setNewProductImageFilePath() {
+        newProductImageFilePath = getProperty(NEW_PRODUCT_IMAGE_FILE_KEY);
+    }
 }
