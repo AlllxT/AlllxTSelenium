@@ -36,7 +36,7 @@ public class AdminAddNewProductTest extends BaseTest {
     }
 
     @Test
-    public void registerNewUser() {
+    public void addNewProduct() {
         adminLoginPage.openAndLogin(user);
         adminHomePage.openCatalog();
         catalog.clickAddNewProduct();

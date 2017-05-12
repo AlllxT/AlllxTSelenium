@@ -7,6 +7,7 @@ import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 
+import java.util.concurrent.TimeUnit;
 
 /**
  * Created by atribushny on 23.04.2017.
@@ -29,6 +30,7 @@ public class BaseTest {
         driver = WebdriverUtils.createNewDriver();
         wait = new WebDriverWait(driver, 60);
         driver.manage().window().maximize();
+        driver.manage().timeouts().pageLoadTimeout(30, TimeUnit.SECONDS);
     }
 
     @BeforeMethod(alwaysRun = true)
