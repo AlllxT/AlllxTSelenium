@@ -5,8 +5,8 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.ui.WebDriverWait;
 import org.openqa.selenium.support.Color;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,19 +37,14 @@ public class Tools {
     }
 
     public static void click(WebElement element) {
-        paintElement(element, "green");
-        element.click();
+        if (element.isDisplayed()) {
+            paintElement(element, "green");
+            element.click();
+        }
     }
 
-
     public static void click(String locator) {
-        if (locator.startsWith("//")
-                || locator.startsWith(".//")
-                || locator.startsWith("./")) {
-            driver.findElement(By.xpath(locator)).click();
-        } else {
-            driver.findElement(By.cssSelector(locator)).click();
-        }
+        click(findElement(locator));
     }
 
     public static By getByFromString(String stringLocator) {
@@ -75,7 +70,9 @@ public class Tools {
     }
 
     public static WebElement findElementInElement(WebElement inElement, String locator) {
-        return inElement.findElement(getByFromString(locator));
+        WebElement element = inElement.findElement(getByFromString(locator));
+        element.isDisplayed();
+        return element;
     }
 
     public static WebElement findElementInElement(WebElement inElement, By locator) {

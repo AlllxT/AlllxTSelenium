@@ -1,13 +1,11 @@
 package com.alllxt.selenium.litecart.pages.publicPages;
 
-import com.alllxt.selenium.framework.bases.BasePage;
+import com.alllxt.selenium.framework.models.User;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.Color;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 
 import java.util.List;
-import java.util.Objects;
 
 import static com.alllxt.selenium.framework.utils.Tools.*;
 import static org.testng.Assert.assertEquals;
@@ -16,29 +14,49 @@ import static org.testng.Assert.assertTrue;
 /**
  * Created by atribushny on 10.05.2017.
  */
-public class HomePage extends BasePage {
+public class HomePage extends LiteCartBasicPage {
 
-    private static final String OPENED_TAB = "(//div[@class='tab-content']/div)[%d]";
-    private static final String PRODUCTS_LOCATOR = "div.image-wrapper";
-    private static final String STICKER_LOCATOR = "div.sticker";
-    private static final String PRODUCT_TABS = ".nav.nav-tabs.nav-justified li";
-
-    private static final String PRODUCT_IN_TAB = "#campaign-products div.product";
-    private static final String PRODUCT_NAME_IN_TAB = "#box-campaigns .info .name";
-
-    private static final String PRODUCT_OPENED = "#box-product";
-    private static final String PRODUCT_NAME_OPENED = "#box-product .title";
-
-    private static final String ADD_TO_CART_BUTTON = "[name='buy_now_form'] [name='add_cart_product']";
-
-    private static final String PRICE_BOX = ".price-wrapper";
-    private static final String REGULAR_PRICE = PRICE_BOX + "> .regular-price";
-    private static final String CAMPAIGN_PRICE = PRICE_BOX + "> .campaign-price";
+    public static final String OPENED_TAB = "(//div[@class='tab-content']/div)[%d]";
+    public static final String PRODUCTS_LOCATOR = "div.image-wrapper";
+    public static final String STICKER_LOCATOR = "div.sticker";
+    public static final String PRODUCT_TABS = ".nav.nav-tabs.nav-justified li";
+    public static final String PRODUCT_IN_TAB = "#campaign-products div.product";
+    public static final String PRODUCT_NAME_IN_TAB = "#box-campaigns .info .name";
+    public static final String PRODUCT_OPENED = "#box-product";
+    public static final String PRODUCT_NAME_OPENED = "#box-product .title";
+    public static final String ADD_TO_CART_BUTTON = "[name='buy_now_form'] [name='add_cart_product']";
+    public static final String PRICE_BOX = ".price-wrapper";
+    public static final String REGULAR_PRICE = PRICE_BOX + "> .regular-price";
+    public static final String CAMPAIGN_PRICE = PRICE_BOX + "> .campaign-price";
+    private static final String REGISTER_LINK = "//a[.='New customers click here']";
+    private static final String LOGOUT_LINK = "//div[@id='box-account']//a[.='Logout']";
+    private static final String LOGIN_EMAIL_FIELD = "[name='login_form'] [name='email']";
+    private static final String LOGIN_PASSWORD_FIELD = "[name='login_form'] [name='password']";
+    private static final String LOGIN_SIGN_IN_BUTTON = "button[name='login']";
 
 
     public HomePage openHomePage() {
         driver.get(BASEURL);
+        return this;
+    }
 
+    public HomePage logout() {
+        findElement(LOGOUT_LINK).click();
+        wait.until(ExpectedConditions.invisibilityOfElementLocated(getByFromString(LOGOUT_LINK)));
+        return this;
+    }
+
+    public HomePage loginAs(User user) {
+        loginAs(user.getEmail(), user.getPassword());
+        return this;
+    }
+
+    public HomePage loginAs(String email, String pwd) {
+        wait.until(ExpectedConditions.visibilityOfElementLocated(getByFromString(LOGIN_EMAIL_FIELD)));
+        findElement(LOGIN_EMAIL_FIELD).sendKeys(email);
+        findElement(LOGIN_PASSWORD_FIELD).sendKeys(pwd);
+        findElement(LOGIN_SIGN_IN_BUTTON).click();
+        wait.until(ExpectedConditions.invisibilityOfElementLocated(getByFromString(LOGIN_SIGN_IN_BUTTON)));
         return this;
     }
 
@@ -101,65 +119,19 @@ public class HomePage extends BasePage {
     }
 
 
-    public void checkProduct() {
-        String productNameInTab, productPriceInTabRegular, productPriceInTabCampaign;
-        String productNameOpened, productPriceOpenedRegular, productPriceOpenedCampaign;
-
-        //tab
-        WebElement productInTab = findElement(PRODUCT_IN_TAB);
-        productNameInTab = findElementInElement(productInTab, PRODUCT_NAME_IN_TAB).getText();
-        productPriceInTabRegular = findElementInElement(productInTab, REGULAR_PRICE).getText();
-        productPriceInTabCampaign = findElementInElement(productInTab, CAMPAIGN_PRICE).getText();
-
-        String separator = "---------";
-        System.out.println(separator);
-        System.out.println("Product name: " + productNameInTab);
-        System.out.println("Product regular price: " + productPriceInTabRegular);
-        System.out.println("Product campaign price: " + productPriceInTabCampaign);
-
-        verifyDecoration(productInTab);
-        verifyRegularPriceColor(productInTab);
-        verifyCampaignPriceWeight(productInTab);
-        verifyCampaignPriceColor(productInTab);
-        verifyFontSizes(productInTab);
-
-        System.out.println(separator);
-        openProductPage(productInTab);
-        System.out.println(separator);
-
-        //opened product
-        WebElement productOpened = findElement(PRODUCT_OPENED);
-        productNameOpened = findElementInElement(productOpened, PRODUCT_NAME_OPENED).getText();
-        productPriceOpenedRegular = findElementInElement(productOpened, REGULAR_PRICE).getText();
-        productPriceOpenedCampaign = findElementInElement(productOpened, CAMPAIGN_PRICE).getText();
-
-        System.out.println("Product name: " + productNameOpened);
-        System.out.println("Product regular price: " + productPriceOpenedRegular);
-        System.out.println("Product campaign price: " + productPriceOpenedCampaign);
-
-        verifyDecoration(productOpened);
-        verifyRegularPriceColor(productOpened);
-        verifyCampaignPriceWeight(productOpened);
-        verifyCampaignPriceColor(productOpened);
-        verifyFontSizes(productOpened);
-
-        System.out.println(separator);
-        assertEquals(productNameInTab, productNameOpened);
-        System.out.println("Are product names equal: " + (Objects.equals(productNameInTab, productNameOpened)));
-        assertEquals(productPriceInTabRegular, productPriceOpenedRegular);
-        System.out.println("Are product regular prices equal: " + (Objects.equals(productPriceInTabRegular, productPriceOpenedRegular)));
-        assertEquals(productPriceInTabCampaign, productPriceOpenedCampaign);
-        System.out.println("Are product Campaign prices equal: " + (Objects.equals(productPriceInTabCampaign, productPriceOpenedCampaign)));
-
-    }
-
-    private void openProductPage(WebElement element) {
+    public void openProductPage(WebElement element) {
         System.out.println("Opening product page");
-        if(element.isDisplayed())
-        element.click();
+        if (element.isDisplayed())
+            element.click();
         wait.until(ExpectedConditions.stalenessOf(element));
         wait.until(ExpectedConditions.visibilityOf(findByCss(ADD_TO_CART_BUTTON)));
     }
+
+    public CreateAccountPage clickRegiterNewUser() {
+        findElement(REGISTER_LINK).click();
+        return new CreateAccountPage();
+    }
+
 
 
 }

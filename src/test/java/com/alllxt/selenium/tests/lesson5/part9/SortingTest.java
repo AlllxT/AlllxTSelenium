@@ -13,7 +13,7 @@ import static com.alllxt.selenium.framework.utils.Tools.titleIsPresent;
 import static org.testng.Assert.assertTrue;
 
 /**
- * Created by atribushny on 25.04.2017.
+ * Created by atribushny on 10.05.2017.
  */
 public class SortingTest extends BaseTest {
 

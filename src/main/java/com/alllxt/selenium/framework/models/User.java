@@ -5,6 +5,19 @@ package com.alllxt.selenium.framework.models;
  */
 public class User {
 
+    private String email;
+    private String password;
+    private String fname, lname;
+    private String adress;
+
+    public User() {
+        this.fname = fname;
+        this.lname = lname;
+        this.email = email;
+        this.password = password;
+        this.adress = adress;
+    }
+
     private final String adminUserName = "admin";
     private final String adminUserPassword = "admin";
 
@@ -18,4 +31,43 @@ public class User {
     }
 
 
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public String getFname() {
+        return fname;
+    }
+
+    public void setFname(String fname) {
+        this.fname = fname;
+    }
+
+    public String getLname() {
+        return lname;
+    }
+
+    public void setLname(String lname) {
+        this.lname = lname;
+    }
+
+    public String getAdress() {
+        return adress;
+    }
+
+    public void setAdress(String adress) {
+        this.adress = adress;
+    }
 }
