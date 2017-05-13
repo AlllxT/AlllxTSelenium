@@ -1,5 +1,6 @@
 package com.alllxt.selenium.framework.bases;
 
+import com.alllxt.selenium.framework.utils.Tools;
 import com.alllxt.selenium.framework.webdriver.manager.LocalDriverManager;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
@@ -15,13 +16,15 @@ import static com.alllxt.selenium.framework.utils.Tools.getByFromString;
 public class BasePage {
 
     protected WebDriver driver;
-    protected WebDriverWait wait = new WebDriverWait(LocalDriverManager.getDriver(), 10);
+    protected WebDriverWait wait = new WebDriverWait(LocalDriverManager.getDriver(), 30);
+
 
     public final String BASEURL = "http://localhost/litecart/";
     public final String ADMIN_BASEURL = BASEURL + "admin/";
 
     public BasePage() {
         this.driver = LocalDriverManager.getDriver();
+        Tools tools = new Tools(wait);
     }
 
     public boolean isElementPresent(By locator) {

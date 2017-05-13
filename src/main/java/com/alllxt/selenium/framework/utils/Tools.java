@@ -6,6 +6,7 @@ import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.Color;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.util.ArrayList;
@@ -19,6 +20,11 @@ import static org.openqa.selenium.support.ui.ExpectedConditions.titleIs;
  * Created by atribushny on 10.05.2017.
  */
 public class Tools {
+    private static WebDriverWait wait;
+
+    public Tools(WebDriverWait wait) {
+        this.wait = wait;
+    }
 
     static WebDriver driver = LocalDriverManager.getDriver();
 
@@ -68,7 +74,6 @@ public class Tools {
     public static List<WebElement> findElements(String locator) {
         return driver.findElements(getByFromString(locator));
     }
-
 
 
     public static WebElement findElementInElement(WebElement inElement, String locator) {

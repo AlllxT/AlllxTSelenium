@@ -18,10 +18,10 @@ public class ModelBuilder {
         Product product = new Product();
         product.setCode(randomNumeric(8));
         product.setDescription(randomAlphabetic(50));
-        product.setPriceUSD(random(2, 50, 51, false, true));
+        product.setPriceUSD(randomNumeric(2).replaceFirst("0","1"));
         product.setName(randomAlphabetic(10));
         product.setShortDescription(randomAlphabetic(20));
-        product.setQuantity(random(2, 11, 99, false, true));
+        product.setQuantity(randomNumeric(2).replaceFirst("0","1"));
         return product;
     }
 

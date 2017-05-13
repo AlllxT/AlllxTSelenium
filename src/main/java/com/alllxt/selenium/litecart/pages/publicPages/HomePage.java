@@ -2,12 +2,16 @@ package com.alllxt.selenium.litecart.pages.publicPages;
 
 import com.alllxt.selenium.framework.models.User;
 import org.openqa.selenium.By;
+import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.Select;
 
 import java.util.List;
+import java.util.Random;
 
 import static com.alllxt.selenium.framework.utils.Tools.*;
+import static org.openqa.selenium.support.ui.ExpectedConditions.visibilityOf;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertTrue;
 
@@ -16,23 +20,38 @@ import static org.testng.Assert.assertTrue;
  */
 public class HomePage extends LiteCartBasicPage {
 
+    private Checkout checkout = new Checkout();
+    private Random randomGenerator = new Random();
+
     public static final String OPENED_TAB = "(//div[@class='tab-content']/div)[%d]";
     public static final String PRODUCTS_LOCATOR = "div.image-wrapper";
     public static final String STICKER_LOCATOR = "div.sticker";
     public static final String PRODUCT_TABS = ".nav.nav-tabs.nav-justified li";
-    public static final String PRODUCT_IN_TAB = "#campaign-products div.product";
-    public static final String PRODUCT_NAME_IN_TAB = "#box-campaigns .info .name";
+    public static final String ACTIVE_TAB = PRODUCT_TABS + ".active";
+    public static final String FULL_PAGE_LINK = "#view-full-page";
+    public static final String BUTTON_CLOSE_PRODUCT = "button[aria-label='Close']";
+    public static final String BASKET_LOCATOR = "#cart";
+
+    public static final String TAB_COMMON_LOCATOR = "a[href='%s']";
+    public static final String TAB_POPULAR_PRODUCTS = "#popular-products";
+    public static final String TAB_CAMPAIGN_PRODUCTS = "#campaign-products";
+    public static final String TAB_LATEST_PRODUCTS = "#latest-products";
+
+    public static final String PRODUCT_IN_TAB = "div.product";
+
+    public static final String PRODUCT_NAME_IN_CAMPAIGN_TAB = "#box-campaigns";
+    public static final String PRODUCT_NAME_IN_POPULAR_TAB = "#box-most-popular";
+    public static final String PRODUCT_NAME_IN_LATEST_TAB = "#box-latest-products";
+    public static final String PRODUCT_NAME_IN_TAB = ".info .name";
     public static final String PRODUCT_OPENED = "#box-product";
     public static final String PRODUCT_NAME_OPENED = "#box-product .title";
-    public static final String ADD_TO_CART_BUTTON = "[name='buy_now_form'] [name='add_cart_product']";
+    public static final String PRODUCT_SIZE = "[name='options[Size]']";
+    public static final String ADD_TO_CART_BUTTON = "[name='add_cart_product']";
     public static final String PRICE_BOX = ".price-wrapper";
     public static final String REGULAR_PRICE = PRICE_BOX + "> .regular-price";
     public static final String CAMPAIGN_PRICE = PRICE_BOX + "> .campaign-price";
-    private static final String REGISTER_LINK = "//a[.='New customers click here']";
-    private static final String LOGOUT_LINK = "//div[@id='box-account']//a[.='Logout']";
-    private static final String LOGIN_EMAIL_FIELD = "[name='login_form'] [name='email']";
-    private static final String LOGIN_PASSWORD_FIELD = "[name='login_form'] [name='password']";
-    private static final String LOGIN_SIGN_IN_BUTTON = "button[name='login']";
+    private static final String BASKET_SIZE = "span.quantity";
+    private static final String QUANTITY = "[name='quantity']";
 
 
     public HomePage openHomePage() {
@@ -118,20 +137,62 @@ public class HomePage extends LiteCartBasicPage {
         System.out.println("Is Campaign price bigger than Regular price inside tab: " + (regularFontSize < campaignFontSize));
     }
 
-
     public void openProductPage(WebElement element) {
         System.out.println("Opening product page");
         if (element.isDisplayed())
             element.click();
         wait.until(ExpectedConditions.stalenessOf(element));
-        wait.until(ExpectedConditions.visibilityOf(findByCss(ADD_TO_CART_BUTTON)));
+        wait.until(visibilityOf(findElement(ADD_TO_CART_BUTTON)));
     }
 
-    public CreateAccountPage clickRegiterNewUser() {
-        findElement(REGISTER_LINK).click();
-        return new CreateAccountPage();
+    public void openFirstProduct() {
+        openProductPage(findElement(TAB_CAMPAIGN_PRODUCTS + " " + PRODUCT_IN_TAB));
     }
 
+    public void addProductToCart(int quantity) {
+        if (isElementPresent(FULL_PAGE_LINK)) {
+            findElement(FULL_PAGE_LINK).click();
+        }
+        wait.until(ExpectedConditions.visibilityOfElementLocated(getByFromString(BASKET_SIZE)));
+        String basketSizeOriginal = findElement(BASKET_SIZE).getText();
+        findElement(QUANTITY).clear();
+        findElement(QUANTITY).sendKeys(String.valueOf(quantity));
+        wait.until(d -> d.findElement(getByFromString(QUANTITY)).getAttribute("value").equals(String.valueOf(quantity)));
+        //wait.until(ExpectedConditions.textToBe(getByFromString(QUANTITY), String.valueOf(quantity)));
+        try {
+            Select dropdown = new Select(findElement(PRODUCT_SIZE));
+            dropdown.selectByValue("Small");
+        } catch (NoSuchElementException e) {
+            System.out.println("Unable to pick size. Option is not available");
+        }
+        findElement(ADD_TO_CART_BUTTON).click();
+        wait.until(ExpectedConditions.textToBe(getByFromString(BASKET_SIZE), String.valueOf(Integer.parseInt(basketSizeOriginal) + quantity)));
+
+    }
+
+    public void switchToPopularProducts() {
+        String popular = String.format(TAB_COMMON_LOCATOR, TAB_POPULAR_PRODUCTS);
+        wait.until(ExpectedConditions.textToBe(getByFromString(popular), "Popular Products"));
+        if (findElement(popular).isDisplayed()) {
+            findElement(popular).click();
+        }
+    }
+
+    public void chooseRandomProductFromList() {
+        String tabId = findElement(ACTIVE_TAB).findElement(getByFromString("a")).getAttribute("href").split("#")[1];
+        List<WebElement> productList = findElement("#" + tabId)
+                .findElements(getByFromString(PRODUCT_IN_TAB));
+        int index = randomGenerator.nextInt(productList.size());
+        wait.until(ExpectedConditions.elementToBeClickable(productList.get(index)));
+        productList.get(index).click();
+        wait.until(ExpectedConditions.visibilityOfElementLocated(getByFromString(ADD_TO_CART_BUTTON)));
+    }
+
+    public void openBasket() {
+        wait.until(ExpectedConditions.visibilityOfElementLocated(getByFromString(BASKET_LOCATOR)));
+        findElement(BASKET_LOCATOR).click();
+        wait.until(ExpectedConditions.invisibilityOfElementLocated(getByFromString(BASKET_LOCATOR)));
+    }
 
 
 }

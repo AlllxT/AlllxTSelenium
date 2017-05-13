@@ -35,8 +35,8 @@ public class PublicProductTest extends BaseTest {
         String productNameOpened, productPriceOpenedRegular, productPriceOpenedCampaign;
 
         //tab
-        WebElement productInTab = findElement(PRODUCT_IN_TAB);
-        productNameInTab = findElementInElement(productInTab, PRODUCT_NAME_IN_TAB).getText();
+        WebElement productInTab = findElement(TAB_CAMPAIGN_PRODUCTS + " " + PRODUCT_IN_TAB);
+        productNameInTab = findElementInElement(productInTab, PRODUCT_NAME_IN_CAMPAIGN_TAB + " " + PRODUCT_NAME_IN_TAB).getText();
         productPriceInTabRegular = findElementInElement(productInTab, REGULAR_PRICE).getText();
         productPriceInTabCampaign = findElementInElement(productInTab, CAMPAIGN_PRICE).getText();
 
@@ -78,7 +78,7 @@ public class PublicProductTest extends BaseTest {
         assertEquals(productPriceInTabRegular, productPriceOpenedRegular);
         System.out.println("Are product regular prices equal: " + (Objects.equals(productPriceInTabRegular, productPriceOpenedRegular)));
         assertEquals(productPriceInTabCampaign, productPriceOpenedCampaign);
-        System.out.println("Are product Campaign prices equal: " + (Objects.equals(productPriceInTabCampaign, productPriceOpenedCampaign)));
+        System.out.println("Are product сampaign prices equal: " + (Objects.equals(productPriceInTabCampaign, productPriceOpenedCampaign)));
 
     }
 
