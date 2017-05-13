@@ -37,7 +37,6 @@ public class PublicItemBuyTest extends BaseTest {
         homePage.addProductToCart(2);
         homePage.openBasket();
         checkout.removeAllProducts();
-
     }
 
 }
