@@ -158,7 +158,6 @@ public class HomePage extends LiteCartBasicPage {
         findElement(QUANTITY).clear();
         findElement(QUANTITY).sendKeys(String.valueOf(quantity));
         wait.until(d -> d.findElement(getByFromString(QUANTITY)).getAttribute("value").equals(String.valueOf(quantity)));
-        //wait.until(ExpectedConditions.textToBe(getByFromString(QUANTITY), String.valueOf(quantity)));
         try {
             Select dropdown = new Select(findElement(PRODUCT_SIZE));
             dropdown.selectByValue("Small");
@@ -167,7 +166,6 @@ public class HomePage extends LiteCartBasicPage {
         }
         findElement(ADD_TO_CART_BUTTON).click();
         wait.until(ExpectedConditions.textToBe(getByFromString(BASKET_SIZE), String.valueOf(Integer.parseInt(basketSizeOriginal) + quantity)));
-
     }
 
     public void switchToPopularProducts() {
