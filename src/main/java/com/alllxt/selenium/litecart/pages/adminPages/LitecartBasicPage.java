@@ -1,7 +1,6 @@
 package com.alllxt.selenium.litecart.pages.adminPages;
 
 import com.alllxt.selenium.framework.bases.BasePage;
-import com.alllxt.selenium.litecart.pages.adminPages.menu.pages.catalog.pages.Catalog;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -17,6 +16,10 @@ import static org.openqa.selenium.support.ui.ExpectedConditions.visibilityOf;
  */
 public class LitecartBasicPage extends BasePage {
 
+    protected LitecartBasicPage() {
+        super();
+    }
+
     protected static final By LOGOUT_BUTTON_CSS_LOCATOR = By.cssSelector("a[title='Logout']");
     protected static final String MENU_BLOCK = "box-apps-menu";
     protected static final String MENU_LIST = "li#app-";
@@ -31,6 +34,10 @@ public class LitecartBasicPage extends BasePage {
 
     public void openCatalog() {
         clickOnElementInMenu("Catalog");
+    }
+
+    public void openCountries() {
+        clickOnElementInMenu("Countries");
     }
 
     private static void clickOnElementInMenu(String subMenuName) {

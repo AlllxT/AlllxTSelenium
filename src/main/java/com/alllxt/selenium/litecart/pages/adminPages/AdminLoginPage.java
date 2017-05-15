@@ -4,6 +4,7 @@ import com.alllxt.selenium.framework.models.User;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 
 import static com.alllxt.selenium.framework.utils.Tools.click;
+import static com.alllxt.selenium.framework.utils.Tools.findElement;
 import static org.openqa.selenium.support.ui.ExpectedConditions.invisibilityOf;
 
 /**
@@ -27,7 +28,7 @@ public class AdminLoginPage extends LitecartBasicPage {
         enterUsername(user.getAdminUserName())
                 .enterPassword(user.getAdminUserPassword())
                 .submitLogin();
-        wait.until(invisibilityOf(findByCss(USER_LOGIN_BUTTON_CSS_LOCATOR)));
+        wait.until(invisibilityOf(findElement(USER_LOGIN_BUTTON_CSS_LOCATOR)));
         wait.until(ExpectedConditions.urlToBe(ADMIN_BASEURL));
     }
 
@@ -37,14 +38,14 @@ public class AdminLoginPage extends LitecartBasicPage {
     }
 
     public AdminLoginPage enterUsername(String username) {
-        findByCss(USER_NAME_TEXT_FIELD_CSS_LOCATOR).clear();
-        findByCss(USER_NAME_TEXT_FIELD_CSS_LOCATOR).sendKeys(username);
+        findElement(USER_NAME_TEXT_FIELD_CSS_LOCATOR).clear();
+        findElement(USER_NAME_TEXT_FIELD_CSS_LOCATOR).sendKeys(username);
         return this;
     }
 
     public AdminLoginPage enterPassword(String password) {
-        findByCss(USER_PWD_TEXT_FIELD_CSS_LOCATOR).clear();
-        findByCss(USER_PWD_TEXT_FIELD_CSS_LOCATOR).sendKeys(password);
+        findElement(USER_PWD_TEXT_FIELD_CSS_LOCATOR).clear();
+        findElement(USER_PWD_TEXT_FIELD_CSS_LOCATOR).sendKeys(password);
         return this;
     }
 

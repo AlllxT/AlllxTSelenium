@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.TreeSet;
 
+import static com.alllxt.selenium.framework.utils.Tools.findElement;
 import static com.alllxt.selenium.framework.utils.Tools.isCollectionsEqual;
 
 /**
@@ -26,7 +27,7 @@ public class EditGeoZone extends GeoZones {
             sortedCountries.add(countryName);
         }
         isCollectionsEqual(originalList, sortedCountries);
-        findByCss(CANCEL_BUTTON).click();
+        findElement(CANCEL_BUTTON).click();
     }
 
 }

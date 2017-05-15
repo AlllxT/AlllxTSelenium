@@ -6,15 +6,13 @@ import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.Color;
-import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.TreeSet;
+import java.util.*;
 
 import static com.alllxt.selenium.framework.bases.BasePage.paintElement;
-import static org.openqa.selenium.support.ui.ExpectedConditions.titleIs;
+import static org.openqa.selenium.support.ui.ExpectedConditions.*;
 
 /**
  * Created by atribushny on 10.05.2017.
@@ -68,10 +66,12 @@ public class Tools {
     }
 
     public static WebElement findElement(String locator) {
+        wait.until(visibilityOfElementLocated(getByFromString(locator)));
         return driver.findElement(getByFromString(locator));
     }
 
     public static List<WebElement> findElements(String locator) {
+        wait.until(visibilityOfAllElementsLocatedBy(getByFromString(locator)));
         return driver.findElements(getByFromString(locator));
     }
 
@@ -146,6 +146,20 @@ public class Tools {
 
     public static void clickOnElementByJavaScript(WebElement element) {
         ((JavascriptExecutor) driver).executeScript("arguments[0].click();", element);
+    }
+
+    public static int getRandomInt(int max) {
+        return new Random().nextInt(max);
+    }
+
+    public static ExpectedCondition<String> thereIsWindowOtherThan(Set<String> oldWindows) {
+        return new ExpectedCondition<String>() {
+            public String apply(WebDriver driver) {
+                Set<String> handles = driver.getWindowHandles();
+                handles.removeAll(oldWindows);
+                return handles.size() > 0 ? handles.iterator().next() : null;
+            }
+        };
     }
 
 }
