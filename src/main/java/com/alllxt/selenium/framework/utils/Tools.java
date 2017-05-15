@@ -156,18 +156,18 @@ public class Tools {
 
         WebDriverWait wait = new WebDriverWait(driver, 30);
 
-        // wait for jQuery to load
-        ExpectedCondition<Boolean> jQueryLoad = new ExpectedCondition<Boolean>() {
-            @Override
-            public Boolean apply(WebDriver driver) {
-                try {
-                    return ((Long) ((JavascriptExecutor) LocalDriverManager.getDriver()).executeScript("return jQuery.active") == 0);
-                } catch (Exception e) {
-                    // no jQuery present
-                    return true;
-                }
-            }
-        };
+//        // wait for jQuery to load
+//        ExpectedCondition<Boolean> jQueryLoad = new ExpectedCondition<Boolean>() {
+//            @Override
+//            public Boolean apply(WebDriver driver) {
+//                try {
+//                    return ((Long) ((JavascriptExecutor) LocalDriverManager.getDriver()).executeScript("return jQuery.active") == 0);
+//                } catch (Exception e) {
+//                    // no jQuery present
+//                    return true;
+//                }
+//            }
+//        };
 
         // wait for Javascript to load
         ExpectedCondition<Boolean> jsLoad = new ExpectedCondition<Boolean>() {
@@ -178,7 +178,8 @@ public class Tools {
             }
         };
 
-        return wait.until(jQueryLoad) && wait.until(jsLoad);
+//        return wait.until(jQueryLoad) && wait.until(jsLoad);
+        return wait.until(jsLoad);
     }
 
     public static ExpectedCondition<String> thereIsWindowOtherThan(Set<String> oldWindows) {

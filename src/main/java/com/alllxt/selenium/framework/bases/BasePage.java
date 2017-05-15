@@ -26,11 +26,8 @@ public class BasePage {
 
     public BasePage() {
         this.driver = LocalDriverManager.getDriver();
-        wait = new WebDriverWait(LocalDriverManager.getDriver(), 30);
-        waitForJSandJQueryToLoad();
-//        driver.manage().timeouts().pageLoadTimeout(30, TimeUnit.SECONDS);
-//        driver.manage().timeouts().implicitlyWait(20, TimeUnit.SECONDS);
-
+        wait = new WebDriverWait(LocalDriverManager.getDriver(), 60);
+        driver.manage().timeouts().pageLoadTimeout(30, TimeUnit.SECONDS);
         new Tools(wait);
     }
 

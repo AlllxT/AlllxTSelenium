@@ -40,6 +40,5 @@ public class newWindowsTest extends BaseTest {
         adminCountries.openRandomCountryToEdit();
         editCountries.externalLinkVerify();
         adminHomePage.logout();
-
     }
 }
