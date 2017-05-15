@@ -1,7 +1,9 @@
 package com.alllxt.selenium.litecart.pages.adminPages.menu.pages.countries;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,6 +11,7 @@ import java.util.Set;
 import java.util.TreeSet;
 
 import static com.alllxt.selenium.framework.utils.Tools.*;
+import static org.openqa.selenium.support.ui.ExpectedConditions.urlToBe;
 import static org.openqa.selenium.support.ui.ExpectedConditions.visibilityOfAllElementsLocatedBy;
 import static org.testng.Assert.assertNotEquals;
 
@@ -39,17 +42,27 @@ public class EditCountries extends Countries {
     public void externalLinkVerify() {
         wait.until(visibilityOfAllElementsLocatedBy(getByFromString(EXTERNAL_LINK)));
         List<WebElement> externalLinkList = findElements(EXTERNAL_LINK);
+        String currentWindow = driver.getWindowHandle();
+        Set<String> allWindows = driver.getWindowHandles();
+        String currentUrl = driver.getCurrentUrl();
+        String currentTitle = driver.getTitle();
         for (WebElement externalLink : externalLinkList) {
-            String currentWindow = driver.getWindowHandle();
-            Set<String> allWindows = driver.getWindowHandles();
-            String currentTitle = driver.getTitle();
+            wait.until(ExpectedConditions.elementToBeClickable(externalLink));
             externalLink.click();
             String newWindow = wait.until(thereIsWindowOtherThan(allWindows));
             driver.switchTo().window(newWindow);
+            wait.until(ExpectedConditions.not(urlToBe(currentUrl)));
+            try {
+                waitForJSandJQueryToLoad();
+            } catch (TimeoutException e) {
+                continue;
+            }
             String newWindowTitle = driver.getTitle();
-            System.out.println(currentTitle);
-            System.out.println(newWindowTitle);
+            String newWindowURL = driver.getCurrentUrl();
+            System.out.println("Back to Country Editor by URL: " + currentUrl);
+            System.out.println("New window has URL: " + newWindowURL);
             assertNotEquals(currentTitle, newWindowTitle);
+            assertNotEquals(currentUrl, newWindowTitle);
             driver.close();
             driver.switchTo().window(currentWindow);
         }

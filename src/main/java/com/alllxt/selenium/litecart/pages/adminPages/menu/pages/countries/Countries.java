@@ -3,7 +3,6 @@ package com.alllxt.selenium.litecart.pages.adminPages.menu.pages.countries;
 import com.alllxt.selenium.litecart.pages.adminPages.LitecartBasicPage;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.ui.ExpectedConditions;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,9 +21,7 @@ public class Countries extends LitecartBasicPage {
     private static final String COUNTRY_LINK = "//a[.='%s']";
     private static final String EDIT_LINK = "a[title='Edit']";
 
-    public Countries() {
-        super();
-    }
+
 
 
     public boolean isCountriesSorted() {
@@ -40,26 +37,13 @@ public class Countries extends LitecartBasicPage {
         return isCollectionsEqual(originalList, sortedCountries);
     }
 
-//    public void openRandomCountryToEdit() {
-//        wait.until(visibilityOfAllElementsLocatedBy(getByFromString(EDIT_LINK)));
-//        List<WebElement> editCountyList = findElements(EDIT_LINK);
-//        int randomCountry = getRandomInt(10);
-//        wait.until(visibilityOf(editCountyList.get(randomCountry)));
-//        editCountyList.get(randomCountry).click();
-//        wait.until(stalenessOf(editCountyList.get(randomCountry)));
-//    }
-
-    public void openRandomCountryToEdit1() {
+    public void openRandomCountryToEdit() {
         wait.until(visibilityOfAllElementsLocatedBy(getByFromString(EDIT_LINK)));
-        List<WebElement> editList = new ArrayList<>();
-        for (WebElement editCoutry : findElements(EDIT_LINK)) {
-            editList.add(editCoutry);
-            System.out.println(editCoutry.getText());
-        }
-        int randomCountry = getRandomInt(10);
-        wait.until(visibilityOfAllElementsLocatedBy(getByFromString(EDIT_LINK)));
-        editList.get(randomCountry).click();
-        wait.until(stalenessOf(editList.get(randomCountry)));
+        List<WebElement> editCountyList = findElements(EDIT_LINK);
+        int randomCountry = getRandomInt(editCountyList.size());
+        wait.until(visibilityOf(editCountyList.get(randomCountry)));
+        editCountyList.get(randomCountry).click();
+        wait.until(stalenessOf(editCountyList.get(randomCountry)));
     }
 
 

@@ -7,18 +7,15 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 
 import java.util.List;
 
-import static com.alllxt.selenium.framework.utils.Tools.findElement;
-import static com.alllxt.selenium.framework.utils.Tools.findElementInElement;
+import static com.alllxt.selenium.framework.utils.Tools.*;
 import static org.openqa.selenium.support.ui.ExpectedConditions.visibilityOf;
+import static org.openqa.selenium.support.ui.ExpectedConditions.visibilityOfElementLocated;
 
 /**
  * Created by atribushny on 24.04.2017.
  */
 public class LitecartBasicPage extends BasePage {
 
-    protected LitecartBasicPage() {
-        super();
-    }
 
     protected static final By LOGOUT_BUTTON_CSS_LOCATOR = By.cssSelector("a[title='Logout']");
     protected static final String MENU_BLOCK = "box-apps-menu";
@@ -38,6 +35,8 @@ public class LitecartBasicPage extends BasePage {
 
     public void openCountries() {
         clickOnElementInMenu("Countries");
+        waitForJSandJQueryToLoad();
+        wait.until(visibilityOfElementLocated(getByFromString(MENU_OPTION_SELECTED)));
     }
 
     private static void clickOnElementInMenu(String subMenuName) {

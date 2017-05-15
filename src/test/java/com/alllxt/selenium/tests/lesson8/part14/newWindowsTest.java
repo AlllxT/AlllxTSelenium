@@ -37,7 +37,7 @@ public class newWindowsTest extends BaseTest {
         adminLoginPage.openAndLogin(user);
         assertTrue(titleIsPresent(wait, "My Store"), "Title is not correct ");
         adminHomePage.openCountries();
-        adminCountries.openRandomCountryToEdit1();
+        adminCountries.openRandomCountryToEdit();
         editCountries.externalLinkVerify();
         adminHomePage.logout();
 
