@@ -3,9 +3,13 @@ package com.alllxt.selenium.framework.utils;
 import com.alllxt.selenium.framework.webdriver.manager.LocalDriverManager;
 import com.alllxt.selenium.framework.webdriver.manager.WebdriverFactory;
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
 
 import static org.openqa.selenium.support.ui.ExpectedConditions.titleIs;
@@ -21,10 +25,10 @@ public class WebdriverUtils {
         return webDriver;
     }
 
-    public static void instantiateDriver(){
+    public static void instantiateDriver() {
         WebDriver driver = LocalDriverManager.getDriver();
         try {
-            if (driver == null){
+            if (driver == null) {
                 System.out.println("Webdriver is not set. Creating new driver");
                 WebdriverUtils.createNewDriver();
                 setMaximiseBrowserWindow();
@@ -32,7 +36,7 @@ public class WebdriverUtils {
             }
             driver.getWindowHandles();
             driver.getTitle();
-        } catch (Exception exception){
+        } catch (Exception exception) {
             System.out.println("Browser is not detected. Error message: \""
                     + exception.getMessage() + "\". Restarting browser");
             WebdriverUtils.createNewDriver();
@@ -56,14 +60,53 @@ public class WebdriverUtils {
         }
     }
 
-    public static void setMaximiseBrowserWindow(){
+    public static void setMaximiseBrowserWindow() {
         WebDriver driver = LocalDriverManager.getDriver();
         driver.manage().window().maximize();
         driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
     }
 
+    public static boolean waitForJSandJQueryToLoad() {
+
+        WebDriverWait wait = new WebDriverWait(LocalDriverManager.getDriver(), 30);
+
+        ExpectedCondition<Boolean> jQueryLoad = new ExpectedCondition<Boolean>() {
+            @Override
+            public Boolean apply(WebDriver driver) {
+                try {
+                    return ((Long) ((JavascriptExecutor) LocalDriverManager.getDriver()).executeScript("return jQuery.active") == 0);
+                } catch (Exception e) {
+                    // no jQuery present
+                    return true;
+                }
+            }
+        };
+
+        ExpectedCondition<Boolean> jsLoad = new ExpectedCondition<Boolean>() {
+            @Override
+            public Boolean apply(WebDriver driver) {
+                return ((JavascriptExecutor) LocalDriverManager.getDriver()).executeScript("return document.readyState")
+                        .toString().equals("complete");
+            }
+        };
+
+        return wait.until(jQueryLoad) && wait.until(jsLoad);
+    }
 
 
+    public static void waitAllWindowsToOpen(int numberOfInitialOpenedWindows) {
+        final WebDriver driver = LocalDriverManager.getDriver();
+        try {
+            new WebDriverWait(driver, 60).until(new ExpectedCondition<Boolean>() {
+                @Override
+                public Boolean apply(WebDriver webDriver) {
+                    return (driver.getWindowHandles().size() == (numberOfInitialOpenedWindows + 1));
+                }
+            });
+        } catch (TimeoutException ignored) {
+
+        }
+    }
 
 
 }

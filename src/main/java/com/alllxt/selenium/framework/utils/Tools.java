@@ -1,24 +1,26 @@
 package com.alllxt.selenium.framework.utils;
 
 import com.alllxt.selenium.framework.webdriver.manager.LocalDriverManager;
-import org.openqa.selenium.By;
-import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 import org.openqa.selenium.support.Color;
 import org.openqa.selenium.support.ui.ExpectedCondition;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.util.*;
+import java.util.concurrent.TimeUnit;
+import java.util.function.Function;
 
 import static com.alllxt.selenium.framework.bases.BasePage.paintElement;
-import static org.openqa.selenium.support.ui.ExpectedConditions.*;
+import static org.openqa.selenium.support.ui.ExpectedConditions.titleIs;
+import static org.openqa.selenium.support.ui.ExpectedConditions.visibilityOfAllElementsLocatedBy;
 
 /**
  * Created by atribushny on 10.05.2017.
  */
 public class Tools {
     private static WebDriverWait wait;
+
 
     public Tools(WebDriverWait wait) {
         this.wait = wait;
@@ -65,10 +67,23 @@ public class Tools {
         }
     }
 
+    //todo
     public static WebElement findElement(String locator) {
-        wait.until(visibilityOfElementLocated(getByFromString(locator)));
-        return driver.findElement(getByFromString(locator));
+        return findElement(getByFromString(locator), ExpectedConditions::presenceOfElementLocated, 60);
     }
+
+    public static WebElement findElement(By locator, final Function<By, ExpectedCondition<WebElement>> condition, Integer timeout) {
+        int defaultTimeout = 60;
+        WebDriverWait wait = new WebDriverWait(LocalDriverManager.getDriver(), defaultTimeout);
+        return wait.withTimeout(
+                Optional.ofNullable(timeout)
+                        .filter(value -> value >= 0)
+                        .orElse(defaultTimeout), TimeUnit.SECONDS)
+                .pollingEvery(500, TimeUnit.MILLISECONDS)
+                .ignoring(WebDriverException.class)
+                .until(condition.apply(locator));
+    }
+
 
     public static List<WebElement> findElements(String locator) {
         wait.until(visibilityOfAllElementsLocatedBy(getByFromString(locator)));
@@ -152,35 +167,7 @@ public class Tools {
         return new Random().nextInt(max);
     }
 
-    public static boolean waitForJSandJQueryToLoad() {
 
-        WebDriverWait wait = new WebDriverWait(driver, 30);
-
-//        // wait for jQuery to load
-//        ExpectedCondition<Boolean> jQueryLoad = new ExpectedCondition<Boolean>() {
-//            @Override
-//            public Boolean apply(WebDriver driver) {
-//                try {
-//                    return ((Long) ((JavascriptExecutor) LocalDriverManager.getDriver()).executeScript("return jQuery.active") == 0);
-//                } catch (Exception e) {
-//                    // no jQuery present
-//                    return true;
-//                }
-//            }
-//        };
-
-        // wait for Javascript to load
-        ExpectedCondition<Boolean> jsLoad = new ExpectedCondition<Boolean>() {
-            @Override
-            public Boolean apply(WebDriver driver) {
-                return ((JavascriptExecutor) LocalDriverManager.getDriver()).executeScript("return document.readyState")
-                        .toString().equals("complete");
-            }
-        };
-
-//        return wait.until(jQueryLoad) && wait.until(jsLoad);
-        return wait.until(jsLoad);
-    }
 
     public static ExpectedCondition<String> thereIsWindowOtherThan(Set<String> oldWindows) {
         return new ExpectedCondition<String>() {

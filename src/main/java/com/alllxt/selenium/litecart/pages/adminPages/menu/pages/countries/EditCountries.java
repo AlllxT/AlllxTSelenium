@@ -1,7 +1,6 @@
 package com.alllxt.selenium.litecart.pages.adminPages.menu.pages.countries;
 
 import org.openqa.selenium.By;
-import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 
@@ -11,6 +10,7 @@ import java.util.Set;
 import java.util.TreeSet;
 
 import static com.alllxt.selenium.framework.utils.Tools.*;
+import static com.alllxt.selenium.framework.utils.WebdriverUtils.waitAllWindowsToOpen;
 import static org.openqa.selenium.support.ui.ExpectedConditions.urlToBe;
 import static org.openqa.selenium.support.ui.ExpectedConditions.visibilityOfAllElementsLocatedBy;
 import static org.testng.Assert.assertNotEquals;
@@ -39,6 +39,7 @@ public class EditCountries extends Countries {
         findElement(CANCEL_BUTTON).click();
     }
 
+
     public void externalLinkVerify() {
         wait.until(visibilityOfAllElementsLocatedBy(getByFromString(EXTERNAL_LINK)));
         List<WebElement> externalLinkList = findElements(EXTERNAL_LINK);
@@ -51,12 +52,8 @@ public class EditCountries extends Countries {
             externalLink.click();
             String newWindow = wait.until(thereIsWindowOtherThan(allWindows));
             driver.switchTo().window(newWindow);
-            wait.until(ExpectedConditions.not(urlToBe(currentUrl)));
-            try {
-                waitForJSandJQueryToLoad();
-            } catch (TimeoutException e) {
-                continue;
-            }
+            waitAllWindowsToOpen(allWindows.size());
+            wait.until(ExpectedConditions.not(urlToBe("about:blank")));
             String newWindowTitle = driver.getTitle();
             String newWindowURL = driver.getCurrentUrl();
             System.out.println("Back to Country Editor by URL: " + currentUrl);
@@ -67,7 +64,6 @@ public class EditCountries extends Countries {
             driver.switchTo().window(currentWindow);
         }
 
+
     }
-
-
 }
