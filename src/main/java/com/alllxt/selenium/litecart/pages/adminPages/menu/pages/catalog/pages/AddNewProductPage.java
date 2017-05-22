@@ -21,7 +21,7 @@ public class AddNewProductPage extends Catalog {
     private static final String PRODUCT_QUANTITY_FIELD = "[name='quantity']";
     private static final String PRODUCT_SHORT_DESCRIPTION_FIELD = "[name='short_description[en]']";
     private static final String PRODUCT_DESCRIPTION_FIELD = "div.trumbowyg-editor";
-    private static final String PRODUCT_PIRCE_USD_FIELD = "[name='prices[USD]']";
+    private static final String PRODUCT_PRICE_USD_FIELD = "[name='prices[USD]']";
     private static final String PRODUCT_SAVE_BUTTON = "[name='save']";
     private static final String PRODUCT_IMAGE_UPLOAD_BUTTON = "[name='new_images[]']";
 
@@ -89,6 +89,6 @@ public class AddNewProductPage extends Catalog {
     }
 
     private void fillPriceUSD(String priceUSD) {
-        findElement(PRODUCT_PIRCE_USD_FIELD).sendKeys(priceUSD);
+        findElement(PRODUCT_PRICE_USD_FIELD).sendKeys(priceUSD);
     }
 }

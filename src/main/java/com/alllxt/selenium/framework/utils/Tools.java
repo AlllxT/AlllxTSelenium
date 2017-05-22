@@ -11,7 +11,6 @@ import java.util.*;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Function;
 
-import static com.alllxt.selenium.framework.bases.BasePage.paintElement;
 import static org.openqa.selenium.support.ui.ExpectedConditions.titleIs;
 import static org.openqa.selenium.support.ui.ExpectedConditions.visibilityOfAllElementsLocatedBy;
 
@@ -89,6 +88,9 @@ public class Tools {
         return driver.findElements(getByFromString(locator));
     }
 
+    public static List<WebElement> findElementsInElement(WebElement inElement, String locator) {
+        return inElement.findElements(getByFromString(locator));
+    }
 
     public static WebElement findElementInElement(WebElement inElement, String locator) {
         WebElement element = inElement.findElement(getByFromString(locator));

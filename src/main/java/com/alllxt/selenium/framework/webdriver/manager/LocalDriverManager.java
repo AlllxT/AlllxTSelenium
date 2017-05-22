@@ -13,7 +13,7 @@ public class LocalDriverManager {
         return webDriver.get();
     }
 
-    public static void setWebDriver(WebDriver driver){
+    public static void setWebDriver(WebDriver driver) {
         webDriver.set(driver);
     }
 }

@@ -2,14 +2,12 @@ package com.alllxt.selenium.framework.bases;
 
 import com.alllxt.selenium.framework.utils.Tools;
 import com.alllxt.selenium.framework.webdriver.manager.LocalDriverManager;
-import org.openqa.selenium.By;
-import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.util.concurrent.TimeUnit;
 
+import static com.alllxt.selenium.framework.utils.Tools.findElementInElement;
 import static com.alllxt.selenium.framework.utils.Tools.getByFromString;
 
 /**
@@ -38,6 +36,14 @@ public class BasePage {
         return isElementPresent(getByFromString(locator));
     }
 
+    public boolean isElementPresentInElement(WebElement element, String locator) {
+        try {
+            findElementInElement(element, locator);
+            return true;
+        } catch (NoSuchElementException ex) {
+            return false;
+        }
+    }
 
     public static void paintElement(WebElement element, String color) {
         JavascriptExecutor js = (JavascriptExecutor) LocalDriverManager.getDriver();
