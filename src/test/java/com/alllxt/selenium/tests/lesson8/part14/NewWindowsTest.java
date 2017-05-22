@@ -15,7 +15,7 @@ import static org.testng.Assert.assertTrue;
 /**
  * Created by atribushny on 15.05.2017.
  */
-public class newWindowsTest extends BaseTest {
+public class NewWindowsTest extends BaseTest {
 
     private User user = new User();
     private AdminLoginPage adminLoginPage;
