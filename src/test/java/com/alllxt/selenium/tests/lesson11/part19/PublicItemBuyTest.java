@@ -1,4 +1,4 @@
-package com.alllxt.selenium.tests.lesson7.part13;
+package com.alllxt.selenium.tests.lesson11.part19;
 
 import com.alllxt.selenium.framework.bases.BaseTest;
 import com.alllxt.selenium.litecart.pages.publicPages.Checkout;
