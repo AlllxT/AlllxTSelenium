@@ -8,6 +8,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import java.util.List;
 
 import static com.alllxt.selenium.framework.utils.Tools.*;
+import static com.alllxt.selenium.framework.utils.WebdriverUtils.waitForJSandJQueryToLoad;
 import static org.openqa.selenium.support.ui.ExpectedConditions.visibilityOf;
 import static org.openqa.selenium.support.ui.ExpectedConditions.visibilityOfElementLocated;
 

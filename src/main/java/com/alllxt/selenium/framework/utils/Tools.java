@@ -44,7 +44,6 @@ public class Tools {
 
     public static void click(WebElement element) {
         if (element.isDisplayed()) {
-            paintElement(element, "green");
             element.click();
         }
     }
@@ -166,7 +165,6 @@ public class Tools {
     public static int getRandomInt(int max) {
         return new Random().nextInt(max);
     }
-
 
 
     public static ExpectedCondition<String> thereIsWindowOtherThan(Set<String> oldWindows) {

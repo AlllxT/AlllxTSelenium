@@ -11,7 +11,6 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import java.util.concurrent.TimeUnit;
 
 import static com.alllxt.selenium.framework.utils.Tools.getByFromString;
-import static com.alllxt.selenium.framework.utils.Tools.waitForJSandJQueryToLoad;
 
 /**
  * Created by atribushny on 24.04.2017.
