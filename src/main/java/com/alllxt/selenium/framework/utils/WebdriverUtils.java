@@ -2,14 +2,13 @@ package com.alllxt.selenium.framework.utils;
 
 import com.alllxt.selenium.framework.webdriver.manager.LocalDriverManager;
 import com.alllxt.selenium.framework.webdriver.manager.WebdriverFactory;
-import org.openqa.selenium.*;
+import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.TimeoutException;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.util.concurrent.TimeUnit;
-
-import static com.alllxt.selenium.framework.utils.Tools.findElement;
-import static com.alllxt.selenium.framework.utils.Tools.getByFromString;
 
 /**
  * Created by atribushny on 09.05.2017.
@@ -51,13 +50,14 @@ public class WebdriverUtils {
                 if (errorMSG == null) {
                     errorMSG = "The error message is empty.";
                 }
+                System.out.println(errorMSG);
             } finally {
                 LocalDriverManager.setWebDriver(null);
             }
         }
     }
 
-    public static void setMaximiseBrowserWindow() {
+    private static void setMaximiseBrowserWindow() {
         WebDriver driver = LocalDriverManager.getDriver();
         driver.manage().window().maximize();
         driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
@@ -105,38 +105,7 @@ public class WebdriverUtils {
         }
     }
 
-    public static WebElement findElementInFrame(String locator) {
-        switchToDefaultContent();
-        By by = getByFromString(locator);
-        WebDriver driver = LocalDriverManager.getDriver();
-        String selectScript;
-        if (by instanceof By.ByXPath) {
-            selectScript = String.format("document.evaluate(\"%s\", this.contentDocument, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue;", locator);
-        } else {
-            selectScript = String.format("$(this).contents().find(\"%s\")[0];", locator);
-        }
-        String findFrameScript = "var callback = arguments[arguments.length - 1];\n" +
-                "$('iframe, frame').each(function(){\n" +
-                " var el = " + selectScript + "\n" +
-                " if (el){\n" +
-                "  callback(this);\n" +
-                " };\n" +
-                "});";
-        JavascriptExecutor js = ((JavascriptExecutor) driver);
-        WebElement iframe;
-        try {
-            iframe = (WebElement) js.executeAsyncScript(findFrameScript);
-        } catch (WebDriverException ex) {
-            throw new TimeoutException("Couldn\'t find element with locator " + locator + " in any frame.");
-        }
-        if (iframe == null) {
-            throw new NoSuchElementException("Couldn\'t find element with locator " + locator + " in any frame.");
-        }
-        driver.switchTo().frame(iframe);
-        return findElement(locator);
-    }
-
-    private static void switchToDefaultContent() {
+    static void switchToDefaultContent() {
         LocalDriverManager.getDriver().switchTo().defaultContent();
     }
 

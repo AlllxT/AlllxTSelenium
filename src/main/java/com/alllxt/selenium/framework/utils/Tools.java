@@ -2,6 +2,7 @@ package com.alllxt.selenium.framework.utils;
 
 import com.alllxt.selenium.framework.webdriver.manager.LocalDriverManager;
 import org.openqa.selenium.*;
+import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.support.Color;
 import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -11,6 +12,7 @@ import java.util.*;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Function;
 
+import static com.alllxt.selenium.framework.utils.WebdriverUtils.switchToDefaultContent;
 import static org.openqa.selenium.support.ui.ExpectedConditions.titleIs;
 import static org.openqa.selenium.support.ui.ExpectedConditions.visibilityOfAllElementsLocatedBy;
 
@@ -65,7 +67,6 @@ public class Tools {
         }
     }
 
-    //todo
     public static WebElement findElement(String locator) {
         return findElement(getByFromString(locator), ExpectedConditions::presenceOfElementLocated, 60);
     }
@@ -100,6 +101,37 @@ public class Tools {
 
     public static WebElement findElementInElement(WebElement inElement, By locator) {
         return inElement.findElement(locator);
+    }
+
+    public static WebElement findElementInFrame(String locator) {
+        switchToDefaultContent();
+        By by = getByFromString(locator);
+        WebDriver driver = LocalDriverManager.getDriver();
+        String selectScript;
+        if (by instanceof By.ByXPath) {
+            selectScript = String.format("document.evaluate(\"%s\", this.contentDocument, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue;", locator);
+        } else {
+            selectScript = String.format("$(this).contents().find(\"%s\")[0];", locator);
+        }
+        String findFrameScript = "var callback = arguments[arguments.length - 1];\n" +
+                "$('iframe, frame').each(function(){\n" +
+                " var el = " + selectScript + "\n" +
+                " if (el){\n" +
+                "  callback(this);\n" +
+                " };\n" +
+                "});";
+        JavascriptExecutor js = ((JavascriptExecutor) driver);
+        WebElement iframe;
+        try {
+            iframe = (WebElement) js.executeAsyncScript(findFrameScript);
+        } catch (WebDriverException ex) {
+            throw new TimeoutException("Couldn\'t find element with locator " + locator + " in any frame.");
+        }
+        if (iframe == null) {
+            throw new NoSuchElementException("Couldn\'t find element with locator " + locator + " in any frame.");
+        }
+        driver.switchTo().frame(iframe);
+        return findElement(locator);
     }
 
 
